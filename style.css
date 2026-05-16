@@ -75,6 +75,7 @@ body.themeRandom { background: radial-gradient(circle, #ffe0b2 0%, #ffcc80 100%)
 }
 
 /* --- 找到 .note-card 样式块，确保它包含 position: relative --- */
+/* 让卡片成为定位上下文 */
 .note-card {
   width: 220px;
   min-height: 150px;
@@ -92,19 +93,40 @@ body.themeRandom { background: radial-gradient(circle, #ffe0b2 0%, #ffcc80 100%)
   flex-direction: column;
 }
 
+/* 右上角的按钮容器 */
+.note-card .actions {
+  position: absolute;
+  top: 8px;      /* 距卡片顶部 8px */
+  right: 8px;    /* 距卡片右侧 8px */
+  display: flex;
+  gap: 4px;      /* 按钮之间的间隙 */
+  z-index: 1;    /* 确保不被卡片内容遮挡 */
+}
+
+/* 按钮的基本样式 */
+.note-card .actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;   /* 适当放大图标 */
+  padding: 2px 4px;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+
 /* 悬停时卡片轻微浮起 */
 .note-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 20px rgba(0,0,0,0.1);
 }
 
+.note-card .actions button:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
 /* 4 确保标题不会被遮挡 */
 .note-card strong {
   display: block;
   margin-bottom: 5px;
-}
-.edit, .del {
-  float: right;
 }
 
 .note-card p {
