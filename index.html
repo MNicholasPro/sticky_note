@@ -1,51 +1,54 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>Electron 便签</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Electron 便签</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div id="theme-selector">
-    <label>主题:</label>
-    <select id="theme">
-      <option value="theme1">蓝色</option>
-      <option value="theme2">紫色</option>
-      <option value="theme3">随机</option>
-    </select>
-  </div>
+<body class="theme1">
 
-  <div id="toolbar">
-    <button id="add-note">+ 新建</button>
-    <span id="stats"></span>
-  </div>
+<div id="toolbar">
+    <button id="add-note">+ 新建便签</button>
 
-  <div id="notes-container"></div>
-
-  <div id="add-note-modal" class="modal hidden">
-    <div class="modal-content">
-      <h2>新建便签</h2>
-      <label>标题: <input type="text" id="note-title"></label>
-      <label>内容: <textarea id="note-content"></textarea></label>
-      <label>等级:
-        <select id="note-level">
-          <option value="high">高</option>
-          <option value="mid">中</option>
-          <option value="low">低</option>
-        </select>
-      </label>
-      <label>状态:
-        <select id="note-status">
-          <option value="todo">待做</option>
-          <option value="redo">再做</option>
-          <option value="done">完成</option>
-        </select>
-      </label>
-      <button id="save-note">保存</button>
-      <button id="cancel-note">取消</button>
+    <!-- 将选择器移入 toolbar，并包裹在一个容器里方便控制 -->
+    <div id="toolbar-controls" style="margin-left: auto; display: flex; align-items: center; gap: 15px;">
+        <div id="theme-selector">
+            <select id="theme" style="padding: 5px 10px; border-radius: 15px; border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.5); outline: none; cursor: pointer;">
+                <option value="theme1">蓝色</option>
+                <option value="theme2">紫色</option>
+                <option value="theme3">随机</option>
+            </select>
+        </div>
+        <span id="stats"></span>
     </div>
-  </div>
+</div>
 
-  <script src="app.js"></script>
+<div id="notes-container"></div>
+
+<div id="add-note-modal" class="modal hidden">
+    <div class="modal-content">
+        <h2>新建便签</h2>
+        <label>标题: <input type="text" id="note-title"></label>
+        <label>内容: <textarea id="note-content"></textarea></label>
+        <label>等级:
+            <select id="note-level">
+                <option value="high">高</option>
+                <option value="mid">中</option>
+                <option value="low">低</option>
+            </select>
+        </label>
+        <label>状态:
+            <select id="note-status">
+                <option value="todo">待做</option>
+                <option value="redo">再做</option>
+                <option value="done">完成</option>
+            </select>
+        </label>
+        <button id="save-note">保存</button>
+        <button id="cancel-note">取消</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>

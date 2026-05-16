@@ -39,7 +39,7 @@ function createWindow() {
 
 // --- Tray icon and menu
 function createTray() {
-  const iconPath = path.join(__dirname, 'assets', 'tray.png');
+  const iconPath = path.join(__dirname, 'assets', 'icon.png');
   const icon = nativeImage.createFromPath(iconPath).resize({ width: 16, height: 16 });
   tray = new Tray(icon);
 

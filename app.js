@@ -43,9 +43,11 @@ function renderNotes() {
     card.dataset.status = n.status;
     card.innerHTML = `
       <strong>${n.title}</strong>
-      <p>${n.content}</p>
-      <button class="edit">✏️</button>
-      <button class="del">🗑️</button>
+      <p>${n.content}</p
+      <div class="actions">
+        <button class="edit" title="编辑">✏️</button>
+        <button class="del" title="删除">🗑️</button>
+      </div>
     `;
     // Edit
     card.querySelector('.edit').onclick = () => openModal(n);

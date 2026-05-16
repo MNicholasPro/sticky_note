@@ -1,45 +1,241 @@
 /* style.css */
 
-/* 基础样式 */
+/* 基础样式 - 增加背景纹理感 */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   overflow: hidden;
+  transition: background 0.5s ease;
+  /* 模拟纸张质感的微弱噪点/渐变 */
+  background-attachment: fixed;
 }
 
-/* 主题背景（简化示例） */
-body.theme1 { background: #e0f7fa; }
-body.theme2 { background: #f3e5f5; }
-body.themeRandom { background: #ffe0b2; }
+/* 主题背景 - 使用柔和的径向渐变 */
+body.theme1 { background: radial-gradient(circle, #e0f7fa 0%, #b2ebf2 100%); }
+body.theme2 { background: radial-gradient(circle, #f3e5f5 0%, #e1bee7 100%); }
+body.themeRandom { background: radial-gradient(circle, #ffe0b2 0%, #ffcc80 100%); }
 
-/* Toolbar */
-#toolbar { padding: 10px; background: #ddd; display: flex; align-items: center; }
-#toolbar button { margin-right: 10px; }
+/* Toolbar - 确保内容左右分布 */
+#toolbar {
+  padding: 15px 25px;
+  background: rgba(255, 255, 255, 0.7); /* 稍微增加透明度 */
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* 默认左对齐 */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  z-index: 100;
+}
+
+/* 移除之前的绝对定位，改用 margin-left: auto 在 HTML 中控制 */
+#theme-selector {
+  /* 移除 position: absolute */
+  display: flex;
+  align-items: center;
+}
+
+/* 优化 Select 样式 - 拟物化：微弱内阴影和半透明 */
+#theme select {
+  appearance: none; /* 移除原生箭头，通过 padding 营造感觉 */
+  -webkit-appearance: none;
+  background: rgba(255, 255, 255, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  padding: 5px 25px 5px 12px !important;
+  border-radius: 20px !important;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  font-size: 0.85em;
+  color: #444;
+  cursor: pointer;
+  /* 使用背景图添加一个简单的微型箭头 */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%20www.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M287.5%2069.4a17.9%2017.9%200%200%201%200%2025L15.5%20258.4a20%2020%200%200%201%20-22.7-22.7L285.4%2069.4a17.9%2017.9%200%200%201%2022.1%200z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 10px;
+}
+
+#theme select:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* 修正原本的 stats 样式，确保它不与 Select 冲突 */
+#stats {
+  margin-left: 15px;
+}
 
 /* Notes container */
-#notes-container { padding: 10px; display: flex; flex-wrap: wrap; gap: 10px; }
+#notes-container {
+  padding: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}
 
-/* Individual note card */
+/* --- 找到 .note-card 样式块，确保它包含 position: relative --- */
 .note-card {
-  width: 200px;
-  background: #fff;
-  border-radius: 5px;
-  padding: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  width: 220px;
+  min-height: 150px;
+  background: #ffffff;
+  border-radius: 12px;
+  /* 增加顶部 padding (35px)，为右上角的 actions 容器留出空间 */
+  padding: 35px 15px 15px 15px;
+  box-shadow:
+          0 4px 6px rgba(0,0,0,0.07),
+          0 1px 3px rgba(0,0,0,0.05),
+          inset 0 0 0 1px rgba(255,255,255,0.5);
+  position: relative; /* 必须有这个，actions 才能相对于它定位 */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 悬停时卡片轻微浮起 */
+.note-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+}
+
+/* 4 确保标题不会被遮挡 */
+.note-card strong {
+  display: block;
+  margin-bottom: 5px;
+}
+.edit, .del {
+  float: right;
+}
+
+.note-card p {
+  margin: 0;
+  font-size: 0.95em;
+  color: #666;
+  line-height: 1.4;
+  flex-grow: 1;
+}
+
+/* 侧边装饰条 - 扁平化保留 */
+.note-card.high   { border-top: 5px solid #ff5252; }
+.note-card.mid    { border-top: 5px solid #448aff; }
+.note-card.low    { border-top: 5px solid #9e9e9e; }
+
+/* 状态背景 - 降低饱和度，使用轻盈的粉色/绿色/橙色 */
+.note-card[data-status="todo"] { background: #fffde7; }
+.note-card[data-status="redo"] { background: #fff3e0; }
+.note-card[data-status="done"] { background: #f1f8e9; }
+
+.note-card button,
+.note-card .btn,
+[class*='card'] button {
+  position: static; /* 覆盖掉可能存在的 absolute */
+  /* 其他保持不变 */
+}
+
+/* 2. 按钮本身的样式：取消绝对定位，改为 Flex 居中 */
+.note-card button {
+  background: rgba(255, 255, 255, 0.6); /* 半透明背景 */
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 0; /* 移除内边距防止影响尺寸 */
+  font-size: 14px;
+}
+
+.note-card, .card, [class*='card'] {
   position: relative;
 }
-.note-card.high   { border-left: 4px solid red; }
-.note-card.mid    { border-left: 4px solid blue; }
-.note-card.low    { border-left: 4px solid gray; }
 
-.note-card[data-status="todo"] { background: #fffacd; }
-.note-card[data-status="redo"] { background: #ffb74d; }
-.note-card[data-status="done"] { background: #c8e6c9; }
+.actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px; /* 按钮之间的间距 */
+}
 
-.note-card button { position: absolute; top: 5px; right: 5px; }
+/* 3. 按钮悬停效果 */
+.note-card button:hover {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+}
 
-/* Modal */
-.modal { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,.5); display:flex; justify-content:center; align-items:center; }
+.note-card button:active {
+  transform: scale(0.9);
+}
+
+/* Modal - 更加精致的模态框 */
+.modal {
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(4px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
 .modal.hidden { display:none; }
-.modal-content { background:#fff; padding:20px; border-radius:5px; width:300px; }
-.modal-content label { display:block; margin-bottom:8px; }
+
+.modal-content {
+  background:#fff;
+  padding:30px;
+  border-radius:20px;
+  width:350px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.modal-content h2 { margin-top: 0; color: #333; }
+
+.modal-content label {
+  display:block;
+  margin-bottom:15px;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background: #f9f9f9;
+}
+
+/* 模态框按钮样式 */
+#save-note, #cancel-note {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+#save-note { background: #4caf50; color: white; }
+#cancel-note { background: #f44336; color: white; }
+
+/* 这里的工具栏按钮样式优化 */
+#add-note {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background: #333;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+#add-note:active { transform: translateY(2px); }
