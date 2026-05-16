@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Electron 便签</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="theme-selector">
+    <label>主题:</label>
+    <select id="theme">
+      <option value="theme1">蓝色</option>
+      <option value="theme2">紫色</option>
+      <option value="theme3">随机</option>
+    </select>
+  </div>
+
+  <div id="toolbar">
+    <button id="add-note">+ 新建</button>
+    <span id="stats"></span>
+  </div>
+
+  <div id="notes-container"></div>
+
+  <div id="add-note-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>新建便签</h2>
+      <label>标题: <input type="text" id="note-title"></label>
+      <label>内容: <textarea id="note-content"></textarea></label>
+      <label>等级:
+        <select id="note-level">
+          <option value="high">高</option>
+          <option value="mid">中</option>
+          <option value="low">低</option>
+        </select>
+      </label>
+      <label>状态:
+        <select id="note-status">
+          <option value="todo">待做</option>
+          <option value="redo">再做</option>
+          <option value="done">完成</option>
+        </select>
+      </label>
+      <button id="save-note">保存</button>
+      <button id="cancel-note">取消</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
