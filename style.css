@@ -1,0 +1,45 @@
+/* style.css */
+
+/* 基础样式 */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* 主题背景（简化示例） */
+body.theme1 { background: #e0f7fa; }
+body.theme2 { background: #f3e5f5; }
+body.themeRandom { background: #ffe0b2; }
+
+/* Toolbar */
+#toolbar { padding: 10px; background: #ddd; display: flex; align-items: center; }
+#toolbar button { margin-right: 10px; }
+
+/* Notes container */
+#notes-container { padding: 10px; display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* Individual note card */
+.note-card {
+  width: 200px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,.1);
+  position: relative;
+}
+.note-card.high   { border-left: 4px solid red; }
+.note-card.mid    { border-left: 4px solid blue; }
+.note-card.low    { border-left: 4px solid gray; }
+
+.note-card[data-status="todo"] { background: #fffacd; }
+.note-card[data-status="redo"] { background: #ffb74d; }
+.note-card[data-status="done"] { background: #c8e6c9; }
+
+.note-card button { position: absolute; top: 5px; right: 5px; }
+
+/* Modal */
+.modal { position: fixed; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,.5); display:flex; justify-content:center; align-items:center; }
+.modal.hidden { display:none; }
+.modal-content { background:#fff; padding:20px; border-radius:5px; width:300px; }
+.modal-content label { display:block; margin-bottom:8px; }

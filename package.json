@@ -1,0 +1,29 @@
+{
+  "name": "electron-sticky-notes",
+  "version": "1.0.0",
+  "description": "Electron 智能便签工具",
+  "main": "main.js",
+  "author": "AI Assistant",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^26.0.0",
+    "electron-builder": "^24.0.0"
+  },
+  "dependencies": {
+    "electron-store": "^8.0.0"
+  },
+  "build": {
+    "appId": "com.aiassistant.stickynotes",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        "dmg"
+      ]
+    },
+    "publish": null
+  }
+}
