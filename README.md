@@ -1,9 +1,5 @@
 # sticky_note
 
-Optimized tool selection根据你提供的 `Skill.md` 需求文档，我为你起草了一份完整的 README.md。这份文档不仅涵盖了功能描述，还包含了详细的安装、运行指南以及技术实现细节，方便其他开发者或用户快速上手。
-
-你可以直接将以下内容写入到项目根目录的 README.md 文件中。
-
 ---
 
 # 📝 智能便签应用 (Sticky Notes App)
