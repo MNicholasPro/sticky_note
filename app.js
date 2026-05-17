@@ -37,17 +37,29 @@ function closeModal() { modal.classList.add('hidden'); }
 // 4. Render notes
 function renderNotes() {
   notesContainer.innerHTML = '';
+
+  // --- 核心修改：排序逻辑 ---
+  // 定义优先级：todo=0, redo=1, done=2 (数字越小越靠前)
+  const priority = { 'todo': 0, 'redo': 1, 'done': 2 };
+
+  // 排序：根据 priority 升序排列
+  notes.sort((a, b) => priority[a.status] - priority[b.status]);
+  // ------------------------
+
   notes.forEach(n => {
     const card = document.createElement('div');
     card.className = `note-card ${n.level}`;
     card.dataset.status = n.status;
+
+    // 注意：我们在 HTML 中添加了一个用于显示水印的 span
     card.innerHTML = `
-          <strong>${n.title}</strong>
-          <p>${n.content}</p>
+          <div class="status-watermark">${n.status.toUpperCase()}</div>
           <div class="actions">
-            <button class="edit" title="编辑">✏️</button>
+            <button class="edit" title="编辑">✏️</temp>
             <button class="del" title="删除">🗑️</button>
           </div>
+          <strong class="title">${n.title}</strong>
+          <p class="content">${n.content}</p>
         `;
     // Edit
     card.querySelector('.edit').onclick = () => openModal(n);

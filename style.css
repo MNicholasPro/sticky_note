@@ -279,3 +279,41 @@ body.themeRandom { background: radial-gradient(circle, #ffe0b2 0%, #ffcc80 100%)
 }
 
 #add-note:active { transform: translateY(2px); }
+
+/* 1. 状态水印样式 */
+.status-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-15deg); /* 倾斜放置 */
+  font-size: 3rem;
+  font-weight: 900;
+  color: rgba(0, 0, 0, 0.05); /* 极淡的颜色，形成水印感 */
+  pointer-events: none; /* 确保水印不影响点击按钮 */
+  white-space: nowrap;
+  user-select: none;
+  z-index: 0;
+}
+
+/* 2. 针对完成状态 (done) 的特殊处理 */
+.note-card[data-status="done"] .title {
+  text-decoration: line-through; /* 添加删除线 */
+  color: #aaa; /* 文字变灰 */
+}
+
+.note-card[data-status="done"] .content {
+  color: #bbb;
+  text-decoration: none; /* 内容部分可以不加，或者也加删除线 */
+}
+
+/* 3. 确保卡片内的内容层级在水印之上 */
+.note-card strong,
+.note-card p {
+  position: relative;
+  z-index: 2;
+}
+
+/* 4. 确保 actions 按钮依然在最顶层 */
+.note-card .actions {
+  z-index: 10;
+}
