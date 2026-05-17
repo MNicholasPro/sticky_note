@@ -194,24 +194,42 @@ body.themeRandom { background: radial-gradient(circle, #ffe0b2 0%, #ffcc80 100%)
 }
 
 /* Modal - 更加精致的模态框 */
+/* 1. 修复模态框的点击穿透问题 */
 .modal {
   position: fixed;
-  top:0; left:0; right:0; bottom:0;
-  background: rgba(0,0,0,0.3);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4); /* 增加遮罩深度 */
   backdrop-filter: blur(4px);
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* 确保处于最高层级 */
+
+  /* 关键：当 modal 隐藏时，让它不接收任何鼠标事件，防止点击穿透到底层卡片 */
+  pointer-events: auto;
 }
 
-.modal.hidden { display:none; }
+/* 2. 当 modal 隐藏时，彻底禁用其所有交互 */
+.modal.hidden {
+  display: none;
+  pointer-events: none; /* 彻底切断点击穿透到下方卡片的路径 */
+  visibility: hidden;   /* 进一步确保从渲染树中“消失” */
+}
 
+/* 3. 确保模态框内容层级最高 */
 .modal-content {
-  background:#fff;
-  padding:30px;
-  border-radius:20px;
-  width:350px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  position: relative;
+  z-index: 10000;
+  background: #fff;
+  padding: 30px;
+  border-radius: 20px;
+  width: 350px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  /* 防止点击模态框内部时，事件冒泡到遮罩层 */
+  pointer-events: auto;
 }
 
 .modal-content h2 { margin-top: 0; color: #333; }

@@ -58,9 +58,13 @@ function renderNotes() {
 }
 
 // 5. Add / Edit / Delete
-addBtn.onclick = () => openModal();
 
-saveBtn.onclick = () => {
+addBtn.onclick = (e) => {
+  e.stopPropagation(); // 阻止点击新建按钮时触发底层可能的其他事件
+  openModal();
+};
+saveBtn.onclick = (e) => {
+  e.stopPropagation(); // 阻止事件向上传播到 modal 遮罩层
   const title = document.getElementById('note-title').value.trim();
   const content = document.getElementById('note-content').value.trim();
   const level = document.getElementById('note-level').value;
@@ -90,7 +94,10 @@ saveBtn.onclick = () => {
   closeModal();
 };
 
-cancelBtn.onclick = closeModal;
+cancelBtn.onclick = (e) => {
+  e.stopPropagation(); // 阻止事件向上传播
+  closeModal();
+};
 
 // 6. Delete
 function deleteNote(id) {
