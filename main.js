@@ -7,6 +7,7 @@ const store = new Store({ name: 'notes-data' });
 
 let win;
 let tray;
+let isQuitting = false; // 1. 引入退出标志位
 
 // --- Create the main window
 function createWindow() {
@@ -32,10 +33,18 @@ function createWindow() {
 
   // Hide instead of close
   win.on('close', e => {
-    e.preventDefault();
-    win.hide();
+    // 2. 修改拦截逻辑
+    if (!isQuitting) {
+      e.preventDefault();
+      win.hide();
+    }
   });
 }
+
+// 3. 监听 app 的退出生命周期
+app.on('before-quit', () => {
+  isQuitting = true; // 当点击退出时，将标志位设为 true
+});
 
 // --- Tray icon and menu
 function createTray() {
