@@ -23,6 +23,18 @@ themeSel.addEventListener('change', () => {
   document.body.className = themeSel.value === 'theme3' ? 'themeRandom' : themeSel.value;
 });
 
+// --- 新增：监听系统主题变化 ---
+window.api.onThemeChanged((theme) => {
+  if (theme === 'dark') {
+    document.body.className = 'theme-dark';
+  } else {
+
+    // 保持用户之前手动选中的主题，或者默认使用 light
+    const currentTheme = document.getElementById('theme').value;
+    document.body.className = currentTheme === 'theme3' ? 'themeRandom' : currentTheme;
+  }
+});
+
 // 3. Modal helpers
 function openModal(note = null) {
   editingNoteId = note?.id || null;

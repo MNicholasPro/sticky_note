@@ -1,5 +1,5 @@
 // main.js
-const { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage } = require('electron');
+const { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage, nativeTheme  } = require('electron');
 const path = require('path');
 const Store = require('electron-store');
 
@@ -26,6 +26,18 @@ function createWindow() {
   });
 
   win.loadFile('index.html');
+
+  // --- 新增：监听系统主题变化并通知前端 ---
+  nativeTheme.on('updated', () => {
+    const isDark = nativeTheme.shouldUseDarkColors;
+    win.webContents.send('theme-changed', isDark ? 'dark' : 'light');
+  });
+
+  // 初始化时发送一次当前主题
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.send('theme-changed', nativeTheme.shouldUseDarkColors ? 'dark' : 'light');
+  });
+  // --------------------------------------
 
   win.once('ready-to-show', () => {
     win.show();

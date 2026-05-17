@@ -317,3 +317,64 @@ body.themeRandom { background: radial-gradient(circle, #ffe0b2 0%, #ffcc80 100%)
 .note-card .actions {
   z-index: 10;
 }
+
+/* --- 新增：暗黑主题全局变量与样式 --- */
+
+/* 暗黑模式下的背景 */
+body.theme-dark {
+  background: radial-gradient(circle, #2c3e50 0%, #000000 100%);
+  color: #e0e0e0;
+}
+
+/* 暗黑模式下的 Toolbar */
+body.theme-dark #toolbar {
+  background: rgba(30, 30, 30, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/* 暗黑模式下的 Select 控件 */
+body.theme-dark #theme select {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #eee !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* 暗黑模式下的卡片 */
+body.theme-dark .note-card {
+  background: #2d2d2d;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  color: #e0e0e0;
+}
+
+body.theme-dark .note-card strong { color: #fff; }
+body.theme-dark .note-card p { color: #bbb; }
+
+/* 暗黑模式下的按钮 */
+body.theme-dark .note-card .actions button {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+body.theme-dark .note-card .actions button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 暗黑模式下的模态框 */
+body.theme-dark .modal-content {
+  background: #333;
+  color: #fff;
+}
+body.theme-dark .modal-content input,
+body.theme-dark .modal-content textarea,
+body.theme-dark .modal-content select {
+  background: #444;
+  border: 1px solid #555;
+  color: #fff;
+}
+body.theme-dark .modal-content label { color: #ccc; }
+
+/* 暗黑模式下的新增按钮 */
+body.theme-dark #add-note {
+  background: #555;
+  color: #fff;
+}
