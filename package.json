@@ -1,5 +1,5 @@
 {
-  "name": "electron-sticky-notes",
+  "name": "sticky-notes",
   "version": "1.0.0",
   "description": "Electron 智能便签工具",
   "main": "main.js",
