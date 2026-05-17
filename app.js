@@ -50,30 +50,35 @@ function closeModal() { modal.classList.add('hidden'); }
 function renderNotes() {
   notesContainer.innerHTML = '';
 
-  // --- 核心修改：排序逻辑 ---
-  // 定义优先级：todo=0, redo=1, done=2 (数字越小越靠前)
+  // --- 核心修改：多级排序逻辑 ---
+  // 1. 定义状态优先级：todo=0, redo=1, done=2
   const priority = { 'todo': 0, 'redo': 1, 'done': 2 };
 
-  // 排序：根据 priority 升序排列
-  notes.sort((a, b) => priority[a.status] - priority[b.status]);
-  // ------------------------
+  // 2. 执行多级排序
+  notes.sort((a, b) => {
+    // 首先比较状态优先级
+    if (priority[a.status] !== priority[b.status]) {
+      return priority[a.status] - priority[b.status];
+    }
+    // 如果状态相同，则比较创建时间 (降序：最新的时间戳更大会排在前面)
+    return new Date(b.created) - new Date(a.created);
+  });
+  // ---------------------------
 
   notes.forEach(n => {
     const card = document.createElement('div');
     card.className = `note-card ${n.level}`;
     card.dataset.status = n.status;
 
-    // 注意：我们在 HTML 中添加了一个用于显示水印的 span
-    // --- 核心修改：为 p 标签添加 title 属性 ---
     card.innerHTML = `
-            <div class="status-watermark">${n.status.toUpperCase()}</div>
-            <div class="actions">
-              <button class="edit" title="编辑">✏️</button>
-              <button class="del" title="删除">🗑️</button>
-            </div>
-            <strong class="title">${n.title}</strong>
-            <p class="content" title="${n.content.replace(/"/g, '&quot;')}">${n.content}</p>
-          `;
+          <div class="status-watermark">${n.status.toUpperCase()}</div>
+          <div class="actions">
+            <button class="edit" title="编辑">✏️</cut>
+            <button class="del" title="删除">🗑️</button>
+          </div>
+          <strong class="title">${n.title}</strong>
+          <p class="content" title="${n.content.replace(/"/g, '&quot;')}">${n.content}</p>
+        `;
     // ---------------------------------------
     // Edit
     card.querySelector('.edit').onclick = () => openModal(n);

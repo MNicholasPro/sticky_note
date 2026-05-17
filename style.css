@@ -302,21 +302,6 @@ body.themeRandom { background: radial-gradient(circle, #ffe0b2 0%, #ffcc80 100%)
 
 #add-note:active { transform: translateY(2px); }
 
-/* 1. 状态水印样式 */
-.status-watermark {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-15deg); /* 倾斜放置 */
-  font-size: 3rem;
-  font-weight: 900;
-  color: rgba(0, 0, 0, 0.05); /* 极淡的颜色，形成水印感 */
-  pointer-events: none; /* 确保水印不影响点击按钮 */
-  white-space: nowrap;
-  user-select: none;
-  z-index: 0;
-}
-
 /* 2. 针对完成状态 (done) 的特殊处理 */
 .note-card[data-status="done"] .title {
   text-decoration: line-through; /* 添加删除线 */
@@ -399,4 +384,27 @@ body.theme-dark .modal-content label { color: #ccc; }
 body.theme-dark #add-note {
   background: #555;
   color: #fff;
+}
+
+/* 1. 状态水印样式 - 统一基础样式 */
+.status-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-15deg);
+  font-size: 3rem;
+  font-weight: 900;
+  pointer-events: none;
+  white-space: nowrap;
+  user-select: none;
+  z-index: 0;
+  /* 默认：亮色模式下的颜色 (深色透明) */
+  color: rgba(0, 0, 0, 0.05);
+  transition: color 0.5s ease;
+}
+
+/* 2. 针对暗黑主题下的水印进行覆盖 */
+body.theme-dark .status-watermark {
+  /* 暗黑模式下：白色透明度 */
+  color: rgba(255, 255, 255, 0.08);
 }
