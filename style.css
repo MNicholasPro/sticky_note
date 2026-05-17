@@ -129,12 +129,34 @@ body.themeRandom { background: radial-gradient(circle, #ffe0b2 0%, #ffcc80 100%)
   margin-bottom: 5px;
 }
 
+/* 如果你希望标题也支持长文本省略，确保其配置一致 */
+.note-card strong.title {
+  display: block;
+  margin-bottom: 5px;
+  padding-right: 35px;
+
+  /* 确保单行标题溢出显示省略号 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .note-card p {
   margin: 0;
   font-size: 0.95em;
   color: #666;
   line-height: 1.4;
   flex-grow: 1;
+  /* --- 新增：实现多行文本省略 (Line Clamp) --- */
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* 设置最多显示的行数，例如 4 行 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* 确保单词不会在中间断开，保持美观 */
+  word-break: break-word;
+  /* --------------------------------------- */
 }
 
 /* 侧边装饰条 - 扁平化保留 */

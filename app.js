@@ -64,15 +64,17 @@ function renderNotes() {
     card.dataset.status = n.status;
 
     // 注意：我们在 HTML 中添加了一个用于显示水印的 span
+    // --- 核心修改：为 p 标签添加 title 属性 ---
     card.innerHTML = `
-          <div class="status-watermark">${n.status.toUpperCase()}</div>
-          <div class="actions">
-            <button class="edit" title="编辑">✏️</temp>
-            <button class="del" title="删除">🗑️</button>
-          </div>
-          <strong class="title">${n.title}</strong>
-          <p class="content">${n.content}</p>
-        `;
+            <div class="status-watermark">${n.status.toUpperCase()}</div>
+            <div class="actions">
+              <button class="edit" title="编辑">✏️</button>
+              <button class="del" title="删除">🗑️</button>
+            </div>
+            <strong class="title">${n.title}</strong>
+            <p class="content" title="${n.content.replace(/"/g, '&quot;')}">${n.content}</p>
+          `;
+    // ---------------------------------------
     // Edit
     card.querySelector('.edit').onclick = () => openModal(n);
     // Delete
