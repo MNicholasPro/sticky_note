@@ -309,8 +309,10 @@ body.themeRandom { background: radial-gradient(circle, #ffe0b2 0%, #ffcc80 100%)
 }
 
 .note-card[data-status="done"] .content {
-  color: #bbb;
-  text-decoration: none; /* 内容部分可以不加，或者也加删除线 */
+  text-decoration: line-through; /* 添加删除线 */
+  color: #aaa; /* 文字变灰 */
+  /*color: #bbb;*/
+  /*text-decoration: none; !* 内容部分可以不加，或者也加删除线 *!*/
 }
 
 /* 3. 确保卡片内的内容层级在水印之上 */
