@@ -50,39 +50,39 @@ function closeModal() { modal.classList.add('hidden'); }
 function renderNotes() {
   notesContainer.innerHTML = '';
 
-  // --- 核心修改：多级排序逻辑 ---
-  // 1. 定义状态优先级：todo=0, redo=1, done=2
   const priority = { 'todo': 0, 'redo': 1, 'done': 2 };
-
-  // 2. 执行多级排序
-  notes.sort((a, b) => {
-    // 首先比较状态优先级
-    if (priority[a.status] !== priority[b.status]) {
-      return priority[a.status] - priority[b.status];
-    }
-    // 如果状态相同，则比较创建时间 (降序：最新的时间戳更大会排在前面)
-    return new Date(b.created) - new Date(a.created);
-  });
-  // ---------------------------
+  notes.sort((a, b) => priority[a.status] - priority[b.status] || new Date(b.created) - new Date(a.created));
 
   notes.forEach(n => {
     const card = document.createElement('div');
     card.className = `note-card ${n.level}`;
     card.dataset.status = n.status;
 
+    // --- 核心修改：处理显示时间 ---
+    // 逻辑：如果有更新时间（假设你在保存时会更新 created 或我们检查是否有新字段），则显示。
+    // 这里我们统一逻辑：展示最后修改时间，如果只有一个创建时间，则显示创建时间。
+    // 为了演示，我们假设 n.created 就是最后一次操作的时间
+    const displayDate = new Date(n.created).toLocaleString('zh-CN', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    // ----------------------------
+
     card.innerHTML = `
           <div class="status-watermark">${n.status.toUpperCase()}</div>
           <div class="actions">
-            <button class="edit" title="编辑">✏️</cut>
+            <button class="edit" title="编辑">✏️</button>
             <button class="del" title="删除">🗑️</button>
           </div>
           <strong class="title">${n.title}</strong>
           <p class="content" title="${n.content.replace(/"/g, '&quot;')}">${n.content}</p>
+          <div class="card-time">${displayDate}</div>
         `;
-    // ---------------------------------------
-    // Edit
+    // ... existing code ...
     card.querySelector('.edit').onclick = () => openModal(n);
-    // Delete
     card.querySelector('.del').onclick = () => deleteNote(n.id);
     notesContainer.appendChild(card);
   });
@@ -149,3 +149,18 @@ function updateStats() {
   });
   stats.textContent = `待做 ${counts.todo} | 再做 ${counts.redo} | 完成 ${counts.done}`;
 }
+
+// 找到 DOM 元素
+const darkToggleBtn = document.getElementById('toggle-dark');
+
+// --- 新增：切换暗黑模式的逻辑 ---
+darkToggleBtn.onclick = (e) => {
+  e.stopPropagation();
+  // 逻辑：如果当前是 theme-dark，则切回用户选中的主题；否则切换到 dark
+  if (document.body.classList.contains('theme-dark')) {
+    const currentTheme = themeSel.value;
+    document.body.className = currentTheme === 'theme3' ? 'themeRandom' : currentTheme;
+  } else {
+    document.body.className = 'theme-dark';
+  }
+};

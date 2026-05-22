@@ -408,3 +408,23 @@ body.theme-dark .status-watermark {
   /* 暗黑模式下：白色透明度 */
   color: rgba(255, 255, 255, 0.08);
 }
+
+/* 1. 针对时间文字的样式 */
+.card-time {
+  font-size: 0.75rem;
+  color: #999; /* 默认浅灰色 */
+  margin-top: 10px;
+  padding-top: 5px;
+  border-top: 1px dashed rgba(0, 0, 0, 0.05);
+  text-align: right;
+  font-style: italic;
+}
+/* 2. 暗黑模式下的时间颜色适配 */
+body.theme-dark .card-time {
+  color: #777; /* 暗黑模式下稍微亮一点，防止看不见 */
+}
+/* 3. 确保内容层级 */
+.note-card .card-time {
+  position: relative;
+  z-index: 2;
+}
