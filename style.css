@@ -430,3 +430,70 @@ body.theme-dark .card-time {
   position: relative;
   z-index: 2;
 }
+
+/* 替换原本的 notes-container 样式为新的布局 */
+#main-content {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  overflow-y: auto;
+  height: calc(100vh - 80px);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  margin: 0;
+  padding-left: 10px;
+  border-left: 4px solid #333;
+  color: #333;
+}
+
+body.theme-dark .section-title {
+  border-left-color: #eee;
+  color: #eee;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge {
+  background: #333;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+}
+
+body.theme-dark .badge {
+  background: #555;
+  color: #eee;
+}
+
+.notes-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  min-height: 50px;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.02); /* 淡淡的背景区分区域 */
+}
+
+body.theme-dark .notes-group {
+  background: rgba(255,2255,255,0.05);
+}
+
+/* 针对不同状态容器的边框装饰 */
+#todo-container { border-top: 2px solid #ffc107; }
+#redo-container { border-top: 2px solid #4caf50; }
+#done-container { border-top: 2px solid #9e9e9e; }

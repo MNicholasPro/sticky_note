@@ -46,22 +46,27 @@ function openModal(note = null) {
 }
 function closeModal() { modal.classList.add('hidden'); }
 
-// 4. Render notes
+// 4. Render notes - 重写为分类渲染逻辑
 function renderNotes() {
-  notesContainer.innerHTML = '';
+  // 找到三个目标容器
+  const containers = {
+    todo: document.getElementById('todo-container'),
+    redo: document.getElementById('redo-container'),
+    done: document.getElementById('done-container')
+  };
 
-  const priority = { 'todo': 0, 'redo': 1, 'done': 2 };
-  notes.sort((a, b) => priority[a.status] - priority[b.status] || new Date(b.created) - new Date(a.created));
+  // 清空所有容器内容
+  Object.values(containers).forEach(container => {
+    if (container) container.innerHTML = '';
+  });
+
+  let doneCount = 0;
 
   notes.forEach(n => {
     const card = document.createElement('div');
     card.className = `note-card ${n.level}`;
     card.dataset.status = n.status;
 
-    // --- 核心修改：处理显示时间 ---
-    // 逻辑：如果有更新时间（假设你在保存时会更新 created 或我们检查是否有新字段），则显示。
-    // 这里我们统一逻辑：展示最后修改时间，如果只有一个创建时间，则显示创建时间。
-    // 为了演示，我们假设 n.created 就是最后一次操作的时间
     const displayDate = new Date(n.created).toLocaleString('zh-CN', {
       year: 'numeric',
       month: 'numeric',
@@ -69,7 +74,6 @@ function renderNotes() {
       hour: '2-digit',
       minute: '2-digit'
     });
-    // ----------------------------
 
     card.innerHTML = `
           <div class="status-watermark">${n.status.toUpperCase()}</div>
@@ -81,11 +85,26 @@ function renderNotes() {
           <p class="content" title="${n.content.replace(/"/g, '&quot;')}">${n.content}</p>
           <div class="card-time">${displayDate}</div>
         `;
-    // ... existing code ...
+
+    // 绑定事件
     card.querySelector('.edit').onclick = () => openModal(n);
     card.querySelector('.del').onclick = () => deleteNote(n.id);
-    notesContainer.appendChild(card);
+
+    // 根据状态分发到对应的容器
+    const targetContainer = containers[n.status];
+    if (targetContainer) {
+      targetContainer.appendChild(card);
+    }
+
+    // 统计完成数量
+    if (n.status === 'done') {
+      doneCount++;
+    }
   });
+
+  // 更新完成数 Badge
+  const badge = document.getElementById('done-count-badge');
+  if (badge) badge.textContent = doneCount;
 }
 
 // 5. Add / Edit / Delete
@@ -139,14 +158,15 @@ function deleteNote(id) {
   updateStats();
 }
 
-// 7. Stats
+// 7. Stats - 更新统计文本逻辑
 function updateStats() {
   const counts = { todo: 0, redo: 0, done: 0 };
   notes.forEach(n => {
-    if (n.status === 'todo') counts.todo++;
-    if (n.status === 'redo') counts.redo++;
-    if (n.status === 'done') counts.done++;
+    if (counts.hasOwnProperty(n.status)) {
+      counts[n.status]++;
+    }
   });
+  // 更新顶部的全局统计文字
   stats.textContent = `待做 ${counts.todo} | 再做 ${counts.redo} | 完成 ${counts.done}`;
 }
 

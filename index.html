@@ -25,7 +25,25 @@
     </div>
 </div>
 
-<div id="notes-container"></div>
+<!--<div id="notes-container"></div>-->
+<!-- 将原本单一的 container 替换为分类容器 -->
+<div id="main-content">
+    <div class="section">
+        <h3 class="section-title">待办 (Todo)</h3>
+        <div id="todo-container" class="notes-group"></div>
+    </div>
+    <div class="section">
+        <h3 class="section-title">再做 (Redo)</h3>
+        <div id="redo-container" class="notes-group"></div>
+    </div>
+    <div class="section">
+        <div class="section-header">
+            <h3 class="section-title">完成 (Done)</h3>
+            <span id="done-count" class="badge">0</span>
+        </div>
+        <div id="done-container" class="notes-group"></div>
+    </div>
+</div>
 
 <div id="add-note-modal" class="modal hidden">
     <div class="modal-content">
