@@ -6,17 +6,43 @@ const saveBtn = document.getElementById('save-note');
 const cancelBtn = document.getElementById('cancel-note');
 const stats = document.getElementById('stats');
 const themeSel = document.getElementById('theme');
+// 获取时间输入框元素
+const notifTimeInput = document.getElementById('notif-time-input');
 
 let notes = [];
 let editingNoteId = null;
 
-// 1. Load existing notes
+// 1. 初始化时加载保存的时间（如果需要持久化，建议在 preload/main 中处理）
+// 这里假设我们从本地存储读取，或者默认为 10:00
 async function init() {
   notes = await window.api.loadNotes();
+
+  // 从 localStorage 读取用户保存的通知时间
+  const savedTime = localStorage.getItem('notif-time') || '10:00';
+  notifTimeInput.value = savedTime;
+
+  // 通知主进程
+  window.api.setNotificationTime(savedTime);
+
   renderNotes();
   updateStats();
 }
 init();
+// 2. 监听时间输入变化
+notifTimeInput.addEventListener('change', (e) => {
+  const newTime = e.target.value;
+  if (newTime) {
+    // 保存到本地以便下次启动
+    localStorage.setItem('notif-time', newTime);
+    // 通过 IPC 发送给主进程
+    window.api.setNotificationTime(newTime);
+    console.log('通知时间已同步至主进程:', newTime);
+  }
+  // 简单的视觉反馈
+  const originalColor = notifTimeInput.style.borderColor;
+  notifTimeInput.style.borderColor = '#4caf50';
+  setTimeout(() => notifTimeInput.style.borderColor = originalColor, 1000);
+});
 
 // 2. Theme handling
 themeSel.addEventListener('change', () => {

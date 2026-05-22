@@ -12,6 +12,11 @@
 
     <!-- 将选择器移入 toolbar，并包裹在一个容器里方便控制 -->
     <div id="toolbar-controls" style="margin-left: auto; display: flex; align-items: center; gap: 15px;">
+        <!-- 新增：通知时间设置 -->
+        <div id="notification-settings" style="display: flex; align-items: center; gap: 5px; font-size: 0.8em; color: #666;">
+            <span>⏰</span>
+            <input type="time" id="notif-time-input" style="padding: 2px 5px; border-radius: 5px; border: 1px solid rgba(0,0,0,0.1); background: rgba(255,255,255,0.5); outline: none;">
+        </div>
         <button id="toggle-dark" title="切换暗黑模式" style="background: none; border: 1px solid rgba(0,0,0,0.1); border-radius: 50%; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center;">🌓</button>
 
         <div id="theme-selector">
