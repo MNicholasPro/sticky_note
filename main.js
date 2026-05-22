@@ -12,8 +12,8 @@ let isQuitting = false; // 1. 引入退出标志位
 // --- Create the main window
 function createWindow() {
   win = new BrowserWindow({
-    width: 900,
-    height: 650,
+    width: 1920,
+    height: 1080,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -22,7 +22,7 @@ function createWindow() {
     },
     show: false,
     skipTaskbar: false,
-    title: 'Electron 便签'
+    title: '便签'
   });
 
   win.loadFile('index.html');

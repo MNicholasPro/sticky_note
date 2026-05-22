@@ -46,23 +46,28 @@ function openModal(note = null) {
 }
 function closeModal() { modal.classList.add('hidden'); }
 
-// 4. Render notes - 重写为分类渲染逻辑
+// 4. Render notes - 核心修改：实现分类计数
 function renderNotes() {
-  // 找到三个目标容器
   const containers = {
     todo: document.getElementById('todo-container'),
     redo: document.getElementById('redo-container'),
     done: document.getElementById('done-container')
   };
 
+  // 初始化计数器对象
+  const counts = { todo: 0, redo: 0, done: 0 };
+
   // 清空所有容器内容
   Object.values(containers).forEach(container => {
     if (container) container.innerHTML = '';
   });
 
-  let doneCount = 0;
-
   notes.forEach(n => {
+    // 1. 增加对应分类的计数
+    if (counts.hasOwnProperty(n.status)) {
+      counts[n.status]++;
+    }
+
     const card = document.createElement('div');
     card.className = `note-card ${n.level}`;
     card.dataset.status = n.status;
@@ -71,8 +76,8 @@ function renderNotes() {
       year: 'numeric',
       month: 'numeric',
       day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      hour: '2-digit',   // 修正为 '2-digit'
+      minute: '2-digit'  // 修正为 '2-digit'
     });
 
     card.innerHTML = `
@@ -86,25 +91,28 @@ function renderNotes() {
           <div class="card-time">${displayDate}</div>
         `;
 
-    // 绑定事件
     card.querySelector('.edit').onclick = () => openModal(n);
     card.querySelector('.del').onclick = () => deleteNote(n.id);
 
-    // 根据状态分发到对应的容器
     const targetContainer = containers[n.status];
     if (targetContainer) {
       targetContainer.appendChild(card);
     }
-
-    // 统计完成数量
-    if (n.status === 'done') {
-      doneCount++;
-    }
   });
 
-  // 更新完成数 Badge
-  const badge = document.getElementById('done-count-badge');
-  if (badge) badge.textContent = doneCount;
+  // 2. 统一更新所有 Badge 的显示
+  updateBadges(counts);
+}
+
+// 新增：专门负责更新各个分类计数器的函数
+function updateBadges(counts) {
+  const todoBadge = document.getElementById('todo-count-badge');
+  const redoBadge = document.getElementById('redo-count-badge');
+  const doneBadge = document.getElementById('done-count-badge');
+
+  if (todoBadge) todoBadge.textContent = counts.todo;
+  if (redoBadge) redoBadge.textContent = counts.redo;
+  if (doneBadge) doneBadge.textContent = counts.done;
 }
 
 // 5. Add / Edit / Delete
@@ -158,15 +166,12 @@ function deleteNote(id) {
   updateStats();
 }
 
-// 7. Stats - 更新统计文本逻辑
+// 7. Stats - 原有的全局统计保持不变，作为补充
 function updateStats() {
   const counts = { todo: 0, redo: 0, done: 0 };
   notes.forEach(n => {
-    if (counts.hasOwnProperty(n.status)) {
-      counts[n.status]++;
-    }
+    if (counts.hasOwnProperty(n.status)) counts[n.status]++;
   });
-  // 更新顶部的全局统计文字
   stats.textContent = `待做 ${counts.todo} | 再做 ${counts.redo} | 完成 ${counts.done}`;
 }
 

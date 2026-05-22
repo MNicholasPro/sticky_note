@@ -453,6 +453,10 @@ body.theme-dark .card-time {
   padding-left: 10px;
   border-left: 4px solid #333;
   color: #333;
+  display: flex; /* 使用 flex 让文字和 badge 对齐 */
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.3s, color 0.3s;
 }
 
 body.theme-dark .section-title {
@@ -468,15 +472,16 @@ body.theme-dark .section-title {
 
 .badge {
   background: #333;
-  color: white;
+  color: #fff;
   padding: 2px 8px;
-  border-radius: 10px;
+  border-radius: 12px; /* 更圆润一点 */
   font-size: 0.8rem;
+  font-weight: bold;
 }
 
 body.theme-dark .badge {
   background: #555;
-  color: #eee;
+  color: #ddd;
 }
 
 .notes-group {
