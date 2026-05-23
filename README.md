@@ -75,7 +75,7 @@ npm run build
 │   ├── renderer/       # 渲染进程逻辑 (Frontend)
 │   │   ├── index.html  # 主界面结构
 │   │   ├── style.css   # 样式定义（含主题颜色）
-│   │   └── renderer.js # 业务逻辑与 DOM 操作
+│   │   └── app.js      # 业务逻辑与 DOM 操作
 │   └── preload.js      # 预加载脚本（桥接主进程与渲染进程）
 ├── package.json        # 项目配置与依赖
 └── README.md           # 项目说明文档
@@ -85,10 +85,12 @@ npm run build
 
 ## ⚙️ 配置说明
 
-在 `src/main/main.js` 中，你可以自定义以下配置：
+在 `main.js` 中，你可以自定义以下配置：
 - **窗口初始尺寸**：修改 `width` 和 `height`。
 - **托盘图标路径**：修改 `Tray` 实例化时的图标路径。
 - **默认主题**：在 CSS 中修改 `--primary-color` 等变量。
 
 ## 📝 许可证
-本项目采用 MIT 许可证。
+本项目采用 MIT。
+
+此内容模型自动生成。
